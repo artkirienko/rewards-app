@@ -13,6 +13,8 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 RSpec/MultipleExpectations:
   Max: 5
 RSpec/ExampleLength:
-  Max: 10
+  Max: 15
 RSpec/NestedGroups:
   Max: 4
+RSpec/MultipleMemoizedHelpers:
+  Max: 6
