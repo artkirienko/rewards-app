@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RewardsController, type: :controller do
-  # Test data setup
   let(:valid_attributes) do
     {
       name: 'Test Reward',
@@ -27,7 +26,7 @@ RSpec.describe RewardsController, type: :controller do
     end
 
     it 'returns all rewards' do
-      reward # create the reward
+      reward
       get :index
       expect(JSON.parse(response.body).length).to eq(1)
     end
@@ -47,7 +46,7 @@ RSpec.describe RewardsController, type: :controller do
     context 'when reward is not found' do
       it 'raises ActiveRecord::RecordNotFound' do
         expect {
-          get :show, params: { id: -1 } # Use an ID guaranteed not to exist.
+          get :show, params: { id: -1 } # Use an ID guaranteed not to exist
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -117,7 +116,7 @@ RSpec.describe RewardsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the requested reward' do
-      reward # create the reward
+      reward
       expect {
         delete :destroy, params: { id: reward.id }
       }.to change(Reward, :count).by(-1)
