@@ -41,6 +41,32 @@ Implement a simple interface to interact with the backend API. This could be a c
 
 Provide clear documentation on how to set up and run the application
 
+## Run with Dev Containers
+
+You can run this project using [Dev Containers](https://containers.dev/) to ensure a consistent development environment. Follow the steps below to get started
+
+### Prerequisites
+- **[Docker](https://www.docker.com/get-started/)** installed locally on your machine
+- A [compatible editor](https://containers.dev/supporting#editors), such as [Visual Studio Code](https://code.visualstudio.com/) or [Cursor AI Editor](https://cursor.sh/), that supports Dev Containers
+- The **[Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)** installed in your editor. *Note:* This extension is typically pre-installed in VS Code and Cursor AI Editor
+
+### Steps
+1. Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/artkirienko/rewards-app
+   cd rewards-app
+   ```
+2. Open the project folder in your editor
+3. When prompted, select "Reopen in Container" (or use the command palette: Dev Containers: Reopen in Container)
+4. The Dev Container will build and configure the environment based on the provided .devcontainer configuration
+5. Once the dev container setup is complete, open the terminal **within your editor** and run `bin/rails s`
+6. Open http://localhost:3000/ in your browser to view the application
+
+### Notes
+- Ensure Docker is running before launching the Dev Container
+- The `.devcontainer/devcontainer.json` file in this repository defines the container setup, including dependencies and tools
+- I recommend clicking "Connecting to Dev Container (show log)" in your editor to monitor the container setup process and troubleshoot any issues
+
 # README
 
 This README would normally document whatever steps are necessary to get the
