@@ -20,3 +20,21 @@ user_data.each do |data|
     user.points = data[:points]
   end
 end
+
+reward_data = [
+  { name: "Tim's Favourite Soup", description: 'Free Tim\'s favourite soup, slice of bread included.', points: 80 },
+  { name: '1 Baked Pie', description: 'Small size free baked pie at the cafe.', points: 50 },
+  { name: 'Free Brewed Coffee or Tea', description: 'Any size free brewed coffee or tea at the cafe.', points: 50 },
+  { name: 'Vanilla Cone Pick Up only', description: 'Regular size free Vanilla Cone Pick Up only at the cafe.', points: 60 },
+  { name: 'Any Size Latte', description: 'Any size coffee latte at the cafe.', points: 70 },
+  { name: 'Breakfast Wrap', description: 'Free breakfast wrap at the cafe.', points: 80 },
+  { name: 'Eggs Benedict Meal', description: 'Free Eggs Benedict meal including any size brewed tea or coffee, salad, and french fries.', points: 150 },
+  { name: 'Dinner Voucher', description: 'A voucher for a dinner at the cafe.', points: 300 }
+]
+
+reward_data.each do |data|
+  Reward.find_or_create_by!(name: data[:name]) do |reward|
+    reward.description = data[:description]
+    reward.points = data[:points]
+  end
+end
