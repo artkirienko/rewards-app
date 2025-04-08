@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :points_events, dependent: :destroy
+
   validates :name,
             presence: true,
             length: { maximum: 255 }

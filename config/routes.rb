@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :points_events
   resources :bonuses
   resources :rewards
   resources :users
