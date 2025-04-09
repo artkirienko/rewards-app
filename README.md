@@ -141,6 +141,8 @@ Run the setup script to initialize the application:
 bin/setup
 ```
 
+You may need to change database configuration `config/database.yml`
+
 You are now ready to [interact with the Backend API via the command-line interface (CLI)](#interact-with-backend-api-via-command-line-interface-cli) 🎉
 
 ### Run Tests
