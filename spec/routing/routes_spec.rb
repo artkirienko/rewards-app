@@ -109,6 +109,46 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
+  describe 'api v1 account routes' do
+    it "routes GET /api/v1/account to accounts#show" do
+      expect(get: "/api/v1/account").to route_to(
+        controller: "api/v1/accounts",
+        action: "show"
+      )
+    end
+
+    it "routes GET /api/v1/account/balance to accounts#balance" do
+      expect(get: "/api/v1/account/balance").to route_to(
+        controller: "api/v1/accounts",
+        action: "balance"
+      )
+    end
+
+    it "routes GET /api/v1/account/history to accounts#history" do
+      expect(get: "/api/v1/account/history").to route_to(
+        controller: "api/v1/accounts",
+        action: "history"
+      )
+    end
+
+    # Negative tests for unsupported methods
+    it "does not route POST /api/v1/account" do
+      expect(post: "/api/v1/account").not_to be_routable
+    end
+
+    it "does not route PUT /api/v1/account" do
+      expect(put: "/api/v1/account").not_to be_routable
+    end
+
+    it "does not route PATCH /api/v1/account" do
+      expect(patch: "/api/v1/account").not_to be_routable
+    end
+
+    it "does not route DELETE /api/v1/account" do
+      expect(delete: "/api/v1/account").not_to be_routable
+    end
+  end
+
   describe 'health check route' do
     it 'routes to rails health check' do
       expect(get('/up')).to route_to('rails/health#show')
