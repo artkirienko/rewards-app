@@ -21,14 +21,14 @@ RSpec.describe "Api::V1::AccountsController", type: :request do
   end
   let(:headers) { { 'ACCEPT' => 'application/json', 'CONTENT_TYPE' => 'application/json' } }
   let(:auth_token) do
-    post "/login", params: login_credentials.to_json, headers: headers
+    post '/api/v1/login', params: login_credentials.to_json, headers: headers
     json_response['token'] || JSON.parse(response.body).dig('meta', 'token')
   end
   let(:auth_headers) { headers.merge('Authorization' => "Bearer #{auth_token}") }
 
   describe "Authentication" do
     it "successfully logs in and returns a token" do
-      post "/login", params: login_credentials.to_json, headers: headers
+      post '/api/v1/login', params: login_credentials.to_json, headers: headers
       expect(response).to have_http_status(:ok)
       expect(json_response['token'] || json_response.dig('meta', 'token')).to be_present
     end
