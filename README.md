@@ -5,6 +5,30 @@
 
 # Take home challenge Rewards App
 
+### Table of Contents
+
+- [Summary](#summary)
+- [Tech Stack](#tech-stack)
+- [Core Requirements](#core-requirements)
+  - [Backend API](#backend-api)
+  - [Data Persistence](#data-persistence)
+  - [Interface](#interface)
+  - [Documentation](#documentation)
+- [Important Notes](#important-notes)
+- [Run with Dev Containers](#run-with-dev-containers)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
+- [Run with Docker and Docker-Compose](#run-with-docker-and-docker-compose)
+  - [Prerequisites](#prerequisites-1)
+  - [Steps](#steps-1)
+- [Run](#run)
+  - [Prerequisites](#prerequisites-2)
+  - [Steps](#steps-2)
+  - [Run Tests](#run-tests)
+- [Interact with Backend API via CLI](#interact-with-backend-api-via-command-line-interface-cli)
+- [Codestyle](#codestyle)
+- [TODO](#todo)
+
 ### Summary:
 
 The challenge is to implement a basic rewards redemption web app that allows a user to do the following:
@@ -41,6 +65,10 @@ Implement a simple interface to interact with the backend API. This could be a c
 
 Provide clear documentation on how to set up and run the application
 
+## **Important Notes**
+
+I use PointsEvent model with polymorphic association to implement rewards and bonuses, so in the `/api/v1/account/history` you could see all points transactions within your account. For now, application is Backend API only
+
 ## Run with Dev Containers
 
 You can run this project using [Dev Containers](https://containers.dev/) to ensure a consistent development environment. Follow the steps below to get started
@@ -62,32 +90,34 @@ You can run this project using [Dev Containers](https://containers.dev/) to ensu
 3. When prompted, select "Reopen in Container" (or use the command palette: Dev Containers: Reopen in Container)
 4. The Dev Container will build and configure the environment based on the provided .devcontainer configuration
 5. Once the dev container setup is complete, open the terminal **within your editor** and run `bin/rails s`
-6. You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+6. You are ready for [Interacting with Backend API via command-line interface (CLI)](#interact-with-backend-api-via-command-line-interface-cli) 🎉
 7. Run tests: open the terminal **within your editor** and run `RAILS_ENV=test bin/rspec`
 
 ### Notes
 
 - Ensure Docker is running before launching the Dev Container
 - The `.devcontainer/devcontainer.json` file in this repository defines the container setup, including dependencies and tools
-- I recommend clicking "Connecting to Dev Container (show log)" in your editor to monitor the container setup process and troubleshoot any issues
+- It is recommended to monitor the container setup process by clicking "Connecting to Dev Container (show log)" in your editor. This can help troubleshoot any issues that arise
 
 ## Run with Docker and Docker-Compose
 
 ### Prerequisites
 
-- **[Docker](https://www.docker.com/get-started/)** installed locally on your machine
+- **[Docker](https://www.docker.com/get-started/)** must be installed locally on your machine
 
 ### Steps
+
+Run the following command to build and start the application:
 
 ```bash
 docker-compose -f .devdocker/docker-compose.yml up --build
 ```
 
-You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+You are now ready to [interact with the Backend API via the command-line interface (CLI)](#interact-with-backend-api-via-command-line-interface-cli) 🎉
 
-### Run tests
+### Run Tests
 
-Open new terminal window or tab and run from within project directory
+To run tests, open a new terminal window or tab and execute the following command from the project directory:
 
 ```bash
 docker-compose -f .devdocker/docker-compose.yml exec -e RAILS_ENV=test app bin/rspec
@@ -97,23 +127,31 @@ docker-compose -f .devdocker/docker-compose.yml exec -e RAILS_ENV=test app bin/r
 
 ### Prerequisites
 
-MySQL 8, Ruby 3.4.2, Rails 8.0.2
+Ensure the following are installed on your machine:
+
+- MySQL 8
+- Ruby 3.4.2
+- Rails 8.0.2
 
 ### Steps
 
-```
+Run the setup script to initialize the application:
+
+```bash
 bin/setup
 ```
 
-You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+You are now ready to [interact with the Backend API via the command-line interface (CLI)](#interact-with-backend-api-via-command-line-interface-cli) 🎉
 
-### Run tests
+### Run Tests
+
+To execute tests, run:
 
 ```bash
 RAILS_ENV=test bin/rspec
 ```
 
-## Interact with Backend API via command-line interface (CLI)
+## Interact with Backend API via Command-Line Interface (CLI)
 
 As soon as you have Rewards App up and running
 
@@ -442,15 +480,21 @@ _Example Response:_
   </details>
 ````
 
+## Codestyle
+
+```bash
+bin/rubocop
+```
+
 ## TODO
 
-- code coverage, codecov
-- update Devise::JWT::RevocationStrategies::Null to better strategy
-- check for modern devise/devise jwt alternatives
-- authorization & admin dashboard
-- jbuilder, oj, fast-json
-- pagination with pagy, any modern gem or from scratch (offset + limit)
-- typescript react.js frontend via esbuild vs webpacker
-- when user clicks redeem button, play animation
-- codeclimate
-- save curl instructions as Postman suite or create end-to-end test
+- Add code coverage using Codecov
+- Update `Devise::JWT::RevocationStrategies::Null` to a more robust strategy
+- Explore modern alternatives to Devise/Devise JWT
+- Implement authorization and an admin dashboard
+- Move some logic from controllers to JSON view templates using tools like Jbuilder, Oj, or Fast JSON
+- Add pagination using Pagy, a modern gem, or implement it from scratch (offset + limit)
+- Develop a TypeScript React.js frontend using either esbuild or Webpacker
+- Add an animation when the user clicks the redeem button
+- Integrate CodeClimate for code quality analysis
+- Save cURL instructions as a Postman suite or create end-to-end tests
