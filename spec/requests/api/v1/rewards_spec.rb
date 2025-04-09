@@ -47,13 +47,70 @@ RSpec.describe "Api::V1::Rewards", type: :request do
     end
   end
 
-  describe "POST /rewards/:reward_id/redeem" do
-    let(:reward) { Reward.create! valid_attributes }
+  describe "POST /api/v1/rewards/:id/redeem" do
+    let(:user) { FactoryBot.create(:user, points: 100) }
+    let(:reward) { FactoryBot.create(:reward, points: 50) }
+    let(:headers) { { 'ACCEPT' => 'application/json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{jwt_token}") }
+    let(:jwt_token) do
+      post "/login",
+           params: { user: { email: user.email_address, password: user.password } },
+           headers: headers
+      JSON.parse(response.body)['token']
+    end
 
-    it "returns http no_content" do
-      pending 'Update when current_user imlementation is ready'
-      post api_v1_reward_redeem_path(reward)
-      expect(response).to have_http_status(:no_content)
+    context "when user is authenticated" do
+      context "with sufficient points" do
+        it "redeems the reward successfully" do
+          post "/api/v1/rewards/#{reward.id}/redeem", headers: auth_headers
+
+          expect(response).to have_http_status(:ok)
+          json_response = JSON.parse(response.body)
+          expect(json_response['message']).to eq("Reward redeemed successfully")
+          expect(json_response['points_left']).to eq(50)
+          expect(json_response['points_used']).to eq(50)
+
+          user.reload
+          expect(user.points).to eq(50)
+
+          points_event = PointsEvent.last
+          expect(points_event.user).to eq(user)
+          expect(points_event.source).to eq(reward)
+          expect(points_event.points).to eq(-50)
+        end
+      end
+
+      context "with insufficient points" do
+        let(:user) { FactoryBot.create(:user, points: 30) }
+
+        it "returns an error" do
+          post "/api/v1/rewards/#{reward.id}/redeem", headers: auth_headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = JSON.parse(response.body)
+          expect(json_response['error']).to eq("Not enough points")
+
+          user.reload
+          expect(user.points).to eq(30)
+          expect(PointsEvent.count).to eq(0)
+        end
+      end
+
+      context "with invalid reward id" do
+        it "returns not found" do
+          post "/api/v1/rewards/999/redeem", headers: auth_headers
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        post "/api/v1/rewards/#{reward.id}/redeem", headers: headers
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 

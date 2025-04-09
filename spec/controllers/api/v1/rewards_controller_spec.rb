@@ -52,96 +52,67 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
-    context 'with valid params' do
-      it 'creates a new Reward' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        expect {
-          post :create, params: { reward: valid_attributes }
-        }.to change(Reward, :count).by(1)
-      end
-
-      it 'renders a JSON response with the new reward' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        post :create, params: { reward: valid_attributes }
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to include('application/json')
-      end
-    end
-
-    context 'with invalid params' do
-      it 'renders a JSON response with errors' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        post :create, params: { reward: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to include('application/json')
-      end
-
-      it 'does not create a new Reward' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        expect {
-          post :create, params: { reward: invalid_attributes }
-        }.not_to change(Reward, :count)
-      end
-    end
-  end
-
   describe 'POST #redeem' do
-    it 'returns a no_content response' do
-      pending 'Update when current_user imlementation is ready'
-      post :redeem, params: { reward_id: reward.id }
-      expect(response).to have_http_status(:no_content)
-    end
-  end
+    let(:user) { FactoryBot.create(:user, points: 100) }
+    let(:reward) { FactoryBot.create(:reward, points: 50) }
+    let(:devise_mapping) { Devise.mappings[:user] }
 
-  describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) do
-        {
-          name: 'Updated Reward',
-          description: 'Updated description',
-          points: 200
-        }
-      end
-
-      it 'updates the requested reward' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        put :update, params: { id: reward.id, reward: new_attributes }
-        reward.reload
-        expect(reward.name).to eq('Updated Reward')
-      end
-
-      it 'renders a JSON response with the reward' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        put :update, params: { id: reward.id, reward: new_attributes }
-        expect(response).to be_successful
-        expect(response.content_type).to include('application/json')
-      end
+    before do
+      request.env["devise.mapping"] = devise_mapping
+      sign_in user
     end
 
-    context 'with invalid params' do
-      it 'renders a JSON response with errors' do
-        skip 'Move to Api::V1::Admin::RewardsController'
-        put :update, params: { id: reward.id, reward: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to include('application/json')
+    context 'when user is authenticated' do
+      context 'with sufficient points' do
+        it 'redeems the reward successfully' do
+          post :redeem, params: { reward_id: reward.id }, format: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to include(
+            'message' => 'Reward redeemed successfully',
+            'points_left' => 50,
+            'points_used' => 50
+          )
+          expect(user.reload.points).to eq(50)
+          expect(PointsEvent.find_by(user: user, source: reward)).to be_present
+        end
+      end
+
+      context 'with insufficient points' do
+        let(:user) { FactoryBot.create(:user, points: 20) }
+
+        it 'returns an error' do
+          post :redeem, params: { reward_id: reward.id }, format: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(JSON.parse(response.body)).to include(
+            'error' => 'Not enough points'
+          )
+          expect(user.reload.points).to eq(20)
+          expect(PointsEvent.find_by(user: user, source: reward)).to be_nil
+        end
+      end
+
+      context 'with invalid reward id' do
+        it 'returns not found error' do
+          post :redeem, params: { reward_id: 'nonexistent' }, format: :json
+
+          expect(response).to have_http_status(:not_found)
+        end
       end
     end
-  end
 
-  describe 'DELETE #destroy' do
-    it 'destroys the requested reward' do
-      skip 'Move to Api::V1::Admin::RewardsController'
-      reward
-      expect {
-        delete :destroy, params: { id: reward.id }
-      }.to change(Reward, :count).by(-1)
-    end
+    context 'when user is not authenticated' do
+      before do
+        sign_out user
+      end
 
-    it 'returns a no content response' do
-      skip 'Move to Api::V1::Admin::RewardsController'
-      delete :destroy, params: { id: reward.id }
-      expect(response).to have_http_status(:no_content)
+      it 'returns unauthorized error' do
+        post :redeem, params: { reward_id: reward.id }, format: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(JSON.parse(response.body)).to include('error')
+      end
     end
   end
 end

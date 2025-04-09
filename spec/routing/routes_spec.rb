@@ -1,6 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe 'Routes', type: :routing do
+  describe 'Devise Authentication Routes' do
+    it 'routes POST /login to users/sessions#create' do
+      expect(post: '/login').to route_to(
+        controller: 'users/sessions',
+        action: 'create'
+      )
+    end
+
+    it 'routes DELETE /logout to users/sessions#destroy' do
+      expect(delete: '/logout').to route_to(
+        controller: 'users/sessions',
+        action: 'destroy'
+      )
+    end
+
+    it 'does not route GET /login' do
+      expect(get: '/login').not_to be_routable
+    end
+  end
+
   describe 'api v1 rewards routes' do
     it 'routes to #index' do
       expect(get('/api/v1/rewards')).to route_to('api/v1/rewards#index')

@@ -30,6 +30,8 @@ module Api
         else
           render json: { error: result.error }, status: :unprocessable_entity
         end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "Reward not found" }, status: :not_found
       end
 
       private
