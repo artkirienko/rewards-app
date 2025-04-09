@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RewardsController, type: :controller do
+RSpec.describe Api::V1::RewardsController, type: :controller do
   let(:valid_attributes) do
     {
       name: 'Test Reward',
