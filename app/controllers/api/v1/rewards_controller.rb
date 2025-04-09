@@ -1,6 +1,7 @@
 module Api
   module V1
     class RewardsController < ApplicationController
+      before_action :authenticate_user!, only: %i[ redeem ]
       before_action :set_reward, only: %i[ show ]
 
       # GET /rewards
@@ -40,10 +41,6 @@ module Api
         # Only allow a list of trusted parameters through.
         def reward_params
           params.expect(reward: [ :name, :description, :points ])
-        end
-
-        def current_user
-          User.first
         end
     end
   end
