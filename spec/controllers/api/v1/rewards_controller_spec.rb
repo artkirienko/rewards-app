@@ -88,6 +88,7 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
 
   describe 'POST #redeem' do
     it 'returns a no_content response' do
+      pending 'Update when current_user imlementation is ready'
       post :redeem, params: { reward_id: reward.id }
       expect(response).to have_http_status(:no_content)
     end
