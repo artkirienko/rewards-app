@@ -72,6 +72,15 @@ RSpec.describe "Rewards", type: :request do
     end
   end
 
+  describe "POST /rewards/:reward_id/redeem" do
+    let(:reward) { Reward.create! valid_attributes }
+
+    it "returns http no_content" do
+      post "/rewards/#{reward.id}/redeem"
+      expect(response).to have_http_status(:no_content)
+    end
+  end
+
   describe "PUT /rewards/:id" do
     let(:reward) { Reward.create! valid_attributes }
     let(:new_attributes) do

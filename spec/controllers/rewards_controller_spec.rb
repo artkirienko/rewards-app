@@ -82,6 +82,13 @@ RSpec.describe RewardsController, type: :controller do
     end
   end
 
+  describe 'POST #redeem' do
+    it 'returns a no_content response' do
+      post :redeem, params: { reward_id: reward.id }
+      expect(response).to have_http_status(:no_content)
+    end
+  end
+
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do

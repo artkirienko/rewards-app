@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :points_events
   resources :bonuses
-  resources :rewards
+  resources :rewards do
+    post "redeem", to: "rewards#redeem"
+  end
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

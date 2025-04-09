@@ -24,6 +24,11 @@ class RewardsController < ApplicationController
     end
   end
 
+  # POST /rewards/1/redeem
+  def redeem
+    # Redeem reward for current user
+  end
+
   # PATCH/PUT /rewards/1
   def update
     if @reward.update(reward_params)

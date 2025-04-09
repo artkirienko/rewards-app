@@ -51,6 +51,10 @@ RSpec.describe 'Routes', type: :routing do
     it 'routes to #destroy' do
       expect(delete('/rewards/1')).to route_to('rewards#destroy', id: '1')
     end
+
+    it "routes to #redeem" do
+      expect(post: "/rewards/1/redeem").to route_to("rewards#redeem", reward_id: "1")
+    end
   end
 
   describe 'bonuses routes' do
