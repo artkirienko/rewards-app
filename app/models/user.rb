@@ -8,5 +8,6 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP },
             length: { maximum: 255 }
   validates :points,
+            presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end
