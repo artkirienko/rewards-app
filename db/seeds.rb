@@ -38,3 +38,18 @@ reward_data.each do |data|
     reward.points = data[:points]
   end
 end
+
+bonus_data = [
+  { name: 'Sign Up Bonus', description: 'Bonus for signing up.', points: 100 },
+  { name: 'Referral Bonus', description: 'Bonus for referring a friend.', points: 50 },
+  { name: 'Birthday Bonus', description: 'Birthday bonus for users.', points: 200 },
+  { name: 'Anniversary Bonus', description: 'Anniversary bonus for users.', points: 150 },
+  { name: 'Feedback Bonus', description: 'Bonus for providing feedback.', points: 75 }
+]
+
+bonus_data.each do |data|
+  Bonus.find_or_create_by!(name: data[:name]) do |bonus|
+    bonus.description = data[:description]
+    bonus.points = data[:points]
+  end
+end
