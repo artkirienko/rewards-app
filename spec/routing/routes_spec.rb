@@ -53,6 +53,32 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
+  describe 'bonuses routes' do
+    it 'routes to #index' do
+      expect(get('/bonuses')).to route_to('bonuses#index')
+    end
+
+    it 'routes to #show' do
+      expect(get('/bonuses/1')).to route_to('bonuses#show', id: '1')
+    end
+
+    it 'routes to #create' do
+      expect(post('/bonuses')).to route_to('bonuses#create')
+    end
+
+    it 'routes to #update via PUT' do
+      expect(put('/bonuses/1')).to route_to('bonuses#update', id: '1')
+    end
+
+    it 'routes to #update via PATCH' do
+      expect(patch('/bonuses/1')).to route_to('bonuses#update', id: '1')
+    end
+
+    it 'routes to #destroy' do
+      expect(delete('/bonuses/1')).to route_to('bonuses#destroy', id: '1')
+    end
+  end
+
   describe 'health check route' do
     it 'routes to rails health check' do
       expect(get('/up')).to route_to('rails/health#show')
