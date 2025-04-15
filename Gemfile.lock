@@ -96,6 +96,11 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    factory_bot (6.5.1)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 5.0.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -244,6 +249,9 @@ GEM
     rubocop-ast (1.44.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
+    rubocop-factory_bot (2.27.1)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     rubocop-performance (1.25.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
@@ -309,11 +317,13 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  factory_bot_rails (~> 6.4)
   kamal
   mysql2 (~> 0.5)
   puma (>= 5.0)
   rails (~> 8.0.2)
   rspec-rails (~> 7.1)
+  rubocop-factory_bot (~> 2.27)
   rubocop-rails-omakase
   rubocop-rspec (~> 3.5)
   rubocop-rspec_rails (~> 2.31)
