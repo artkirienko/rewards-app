@@ -79,6 +79,32 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
+  describe 'points_events routes' do
+    it 'routes to #index' do
+      expect(get('/points_events')).to route_to('points_events#index')
+    end
+
+    it 'routes to #show' do
+      expect(get('/points_events/1')).to route_to('points_events#show', id: '1')
+    end
+
+    it 'routes to #create' do
+      expect(post('/points_events')).to route_to('points_events#create')
+    end
+
+    it 'routes to #update via PUT' do
+      expect(put('/points_events/1')).to route_to('points_events#update', id: '1')
+    end
+
+    it 'routes to #update via PATCH' do
+      expect(patch('/points_events/1')).to route_to('points_events#update', id: '1')
+    end
+
+    it 'routes to #destroy' do
+      expect(delete('/points_events/1')).to route_to('points_events#destroy', id: '1')
+    end
+  end
+
   describe 'health check route' do
     it 'routes to rails health check' do
       expect(get('/up')).to route_to('rails/health#show')

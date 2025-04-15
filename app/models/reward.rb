@@ -1,4 +1,6 @@
 class Reward < ApplicationRecord
+  has_many :points_events, as: :source, dependent: :destroy
+
   validates :name,
             presence: true,
             length: { maximum: 255 }
