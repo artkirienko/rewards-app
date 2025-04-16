@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resource :account, only: [ :show ] do
+        get :balance
+        get :history
+      end
+    end
+  end
   resources :points_events
   resources :bonuses
   resources :rewards do
