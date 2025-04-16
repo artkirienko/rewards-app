@@ -53,3 +53,38 @@ bonus_data.each do |data|
     bonus.points = data[:points]
   end
 end
+
+points_events_data = [
+  { user_id: 1, source_type: 'Bonus', source_id: 1, points: 100 }, # Sign Up Bonus
+  { user_id: 1, source_type: 'Reward', source_id: 1, points: -80 }, # Redeemed Tim's Favourite Soup
+  { user_id: 1, source_type: 'Bonus', source_id: 2, points: 50 }, # Referral Bonus
+  { user_id: 1, source_type: 'Reward', source_id: 2, points: -50 }, # Redeemed 1 Baked Pie
+  { user_id: 1, source_type: 'Bonus', source_id: 3, points: 200 }, # Birthday Bonus
+  { user_id: 1, source_type: 'Bonus', source_id: 4, points: 150 }, # Anniversary Bonus,
+  { user_id: 1, source_type: 'Bonus', source_id: 5, points: 75 }, # Feedback Bonus
+  { user_id: 1, source_type: 'Reward', source_id: 3, points: -50 }, # Redeemed Free Brewed Coffee or Tea
+  { user_id: 2, source_type: 'Bonus', source_id: 1, points: 100 }, # Sign Up Bonus
+  { user_id: 2, source_type: 'Reward', source_id: 4, points: -80 }, # Redeemed Breakfast Wrap
+  { user_id: 2, source_type: 'Bonus', source_id: 2, points: 50 }, # Referral Bonus
+  { user_id: 2, source_type: 'Bonus', source_id: 3, points: 200 }, # Birthday Bonus
+  { user_id: 2, source_type: 'Reward', source_id: 5, points: -50 }, # Redeemed Free Brewed Coffee or Tea
+  { user_id: 2, source_type: 'Bonus', source_id: 4, points: 150 }, # Anniversary Bonus
+  { user_id: 2, source_type: 'Bonus', source_id: 5, points: 75 }, # Feedback Bonus
+  { user_id: 3, source_type: 'Bonus', source_id: 1, points: 100 }, # Sign Up Bonus
+  { user_id: 3, source_type: 'Reward', source_id: 6, points: -60 }, # Redeemed Vanilla Cone Pick Up only
+  { user_id: 3, source_type: 'Bonus', source_id: 2, points: 50 }, # Referral Bonus
+  { user_id: 3, source_type: 'Bonus', source_id: 3, points: 200 }, # Birthday Bonus
+  { user_id: 3, source_type: 'Reward', source_id: 7, points: -70 } # Redeemed Any Size Latte
+]
+
+points_events_data.each do |data|
+  PointsEvent.find_or_create_by!(user_id: data[:user_id], source_type: data[:source_type], source_id: data[:source_id]) do |points_event|
+    points_event.points = data[:points]
+  end
+end
+
+# Update users' points based on their PointsEvents
+User.find_each do |user|
+  total_points = user.points_events.sum(:points)
+  user.update!(points: total_points)
+end
