@@ -17,7 +17,18 @@ module Api
 
       # POST /rewards/1/redeem
       def redeem
-        # Redeem reward for current user
+        reward = Reward.find(params.expect(:reward_id))
+        result = RewardRedeemer.new(current_user, reward).call
+
+        if result.success?
+          render json: {
+            message: "Reward redeemed successfully",
+            points_left: result.points_left,
+            points_used: result.points_used
+          }, status: :ok
+        else
+          render json: { error: result.error }, status: :unprocessable_entity
+        end
       end
 
       private
@@ -29,6 +40,10 @@ module Api
         # Only allow a list of trusted parameters through.
         def reward_params
           params.expect(reward: [ :name, :description, :points ])
+        end
+
+        def current_user
+          User.first
         end
     end
   end
