@@ -27,33 +27,33 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
-  describe 'rewards routes' do
+  describe 'api v1 rewards routes' do
     it 'routes to #index' do
-      expect(get('/rewards')).to route_to('rewards#index')
+      expect(get('/api/v1/rewards')).to route_to('api/v1/rewards#index')
     end
 
     it 'routes to #show' do
-      expect(get('/rewards/1')).to route_to('rewards#show', id: '1')
+      expect(get('/api/v1/rewards/1')).to route_to('api/v1/rewards#show', id: '1')
     end
 
     it 'routes to #create' do
-      expect(post('/rewards')).to route_to('rewards#create')
+      expect(post('/api/v1/rewards')).to route_to('api/v1/rewards#create')
     end
 
     it 'routes to #update via PUT' do
-      expect(put('/rewards/1')).to route_to('rewards#update', id: '1')
+      expect(put('/api/v1/rewards/1')).to route_to('api/v1/rewards#update', id: '1')
     end
 
     it 'routes to #update via PATCH' do
-      expect(patch('/rewards/1')).to route_to('rewards#update', id: '1')
+      expect(patch('/api/v1/rewards/1')).to route_to('api/v1/rewards#update', id: '1')
     end
 
     it 'routes to #destroy' do
-      expect(delete('/rewards/1')).to route_to('rewards#destroy', id: '1')
+      expect(delete('/api/v1/rewards/1')).to route_to('api/v1/rewards#destroy', id: '1')
     end
 
     it "routes to #redeem" do
-      expect(post: "/rewards/1/redeem").to route_to("rewards#redeem", reward_id: "1")
+      expect(post: "/api/v1/rewards/1/redeem").to route_to("api/v1/rewards#redeem", reward_id: "1")
     end
   end
 

@@ -5,13 +5,13 @@ Rails.application.routes.draw do
         get :balance
         get :history
       end
+      resources :rewards do
+        post "redeem", to: "rewards#redeem"
+      end
     end
   end
   resources :points_events
   resources :bonuses
-  resources :rewards do
-    post "redeem", to: "rewards#redeem"
-  end
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
