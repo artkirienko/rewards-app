@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         get :balance
         get :history
       end
-      resources :rewards do
+      resources :rewards, only: [ :index, :show ] do
         post "redeem", to: "rewards#redeem"
       end
     end

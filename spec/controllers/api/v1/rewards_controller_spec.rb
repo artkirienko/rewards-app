@@ -55,12 +55,14 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Reward' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         expect {
           post :create, params: { reward: valid_attributes }
         }.to change(Reward, :count).by(1)
       end
 
       it 'renders a JSON response with the new reward' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         post :create, params: { reward: valid_attributes }
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
@@ -69,12 +71,14 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
 
     context 'with invalid params' do
       it 'renders a JSON response with errors' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         post :create, params: { reward: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
       end
 
       it 'does not create a new Reward' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         expect {
           post :create, params: { reward: invalid_attributes }
         }.not_to change(Reward, :count)
@@ -100,12 +104,14 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
       end
 
       it 'updates the requested reward' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         put :update, params: { id: reward.id, reward: new_attributes }
         reward.reload
         expect(reward.name).to eq('Updated Reward')
       end
 
       it 'renders a JSON response with the reward' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         put :update, params: { id: reward.id, reward: new_attributes }
         expect(response).to be_successful
         expect(response.content_type).to include('application/json')
@@ -114,6 +120,7 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
 
     context 'with invalid params' do
       it 'renders a JSON response with errors' do
+        skip 'Move to Api::V1::Admin::RewardsController'
         put :update, params: { id: reward.id, reward: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
@@ -123,6 +130,7 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the requested reward' do
+      skip 'Move to Api::V1::Admin::RewardsController'
       reward
       expect {
         delete :destroy, params: { id: reward.id }
@@ -130,6 +138,7 @@ RSpec.describe Api::V1::RewardsController, type: :controller do
     end
 
     it 'returns a no content response' do
+      skip 'Move to Api::V1::Admin::RewardsController'
       delete :destroy, params: { id: reward.id }
       expect(response).to have_http_status(:no_content)
     end

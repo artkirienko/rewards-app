@@ -47,37 +47,33 @@ RSpec.describe "Api::V1::Rewards", type: :request do
     end
   end
 
-  describe "POST /rewards" do
-    context "with valid parameters" do
-      it "creates a new Reward" do
-        expect {
-          post api_v1_rewards_path, params: { reward: valid_attributes }
-        }.to change(Reward, :count).by(1)
-
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to include("application/json")
-        expect(JSON.parse(response.body)["name"]).to eq("Test Reward")
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new Reward" do
-        expect {
-          post api_v1_rewards_path, params: { reward: invalid_attributes }
-        }.not_to change(Reward, :count)
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to include("application/json")
-      end
-    end
-  end
-
   describe "POST /rewards/:reward_id/redeem" do
     let(:reward) { Reward.create! valid_attributes }
 
     it "returns http no_content" do
       post api_v1_reward_redeem_path(reward)
       expect(response).to have_http_status(:no_content)
+    end
+  end
+
+  # Negative tests for unsupported methods
+  describe "POST /rewards" do
+    context "with valid parameters" do
+      it "does not create a new Reward" do
+        post api_v1_rewards_path, params: { reward: valid_attributes }
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).not_to include("application/json")
+      end
+    end
+
+    context "with invalid parameters" do
+      it "does not create a new Reward" do
+        post api_v1_rewards_path, params: { reward: invalid_attributes }
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).not_to include("application/json")
+      end
     end
   end
 
@@ -92,20 +88,19 @@ RSpec.describe "Api::V1::Rewards", type: :request do
     end
 
     context "with valid parameters" do
-      it "updates the requested reward" do
+      it "does not update the requested reward" do
         put api_v1_reward_path(reward.id), params: { reward: new_attributes }
         reward.reload
-        expect(response).to have_http_status(:success)
-        expect(response.content_type).to include("application/json")
-        expect(reward.name).to eq("Updated Reward")
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).not_to include("application/json")
       end
     end
 
     context "with invalid parameters" do
-      it "returns unprocessable entity" do
+      it "does not return unprocessable entity" do
         put api_v1_reward_path(reward.id), params: { reward: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to include("application/json")
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).not_to include("application/json")
       end
     end
   end
@@ -113,11 +108,9 @@ RSpec.describe "Api::V1::Rewards", type: :request do
   describe "DELETE /rewards/:id" do
     let!(:reward) { Reward.create! valid_attributes }
 
-    it "destroys the requested reward" do
-      expect {
-        delete api_v1_reward_path(reward.id)
-      }.to change(Reward, :count).by(-1)
-      expect(response).to have_http_status(:no_content)
+    it "does not destroy the requested reward" do
+      delete api_v1_reward_path(reward.id)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class RewardsController < ApplicationController
-      before_action :set_reward, only: %i[ show update destroy ]
+      before_action :set_reward, only: %i[ show ]
 
       # GET /rewards
       def index
@@ -15,34 +15,9 @@ module Api
         render json: @reward
       end
 
-      # POST /rewards
-      def create
-        @reward = Reward.new(reward_params)
-
-        if @reward.save
-          render json: @reward, status: :created, location: api_v1_reward_url(@reward)
-        else
-          render json: @reward.errors, status: :unprocessable_entity
-        end
-      end
-
       # POST /rewards/1/redeem
       def redeem
         # Redeem reward for current user
-      end
-
-      # PATCH/PUT /rewards/1
-      def update
-        if @reward.update(reward_params)
-          render json: @reward
-        else
-          render json: @reward.errors, status: :unprocessable_entity
-        end
-      end
-
-      # DELETE /rewards/1
-      def destroy
-        @reward.destroy!
       end
 
       private
