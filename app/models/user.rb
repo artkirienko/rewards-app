@@ -1,4 +1,14 @@
 class User < ApplicationRecord
+  alias_attribute :email, :email_address
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable,
+         :jwt_authenticatable,
+         :registerable,
+         :validatable,
+         jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
+
   has_many :points_events, dependent: :destroy
 
   validates :name,

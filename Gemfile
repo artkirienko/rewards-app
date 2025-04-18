@@ -45,3 +45,5 @@ group :development, :test do
   gem "rubocop-rspec_rails", "~> 2.31", require: false
   gem "rubocop-factory_bot", "~> 2.27", require: false
 end
+
+gem "devise-jwt", "~> 0.12.1"

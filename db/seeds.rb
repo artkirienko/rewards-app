@@ -8,6 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+secret_password = 'password'
+
 user_data = [
   { name: 'Bryan Rainlord', email_address: 'one@example.com', points: 0 },
   { name: 'Cherry Undersun', email_address: 'two@example.com', points: 0 },
@@ -18,6 +20,8 @@ user_data.each do |data|
   User.find_or_create_by!(email_address: data[:email_address]) do |user|
     user.name = data[:name]
     user.points = data[:points]
+    user.password = secret_password
+    user.password_confirmation = secret_password
   end
 end
 
