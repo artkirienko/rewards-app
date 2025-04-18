@@ -1,6 +1,8 @@
 module Api
   module V1
     class AccountsController < ApplicationController
+      before_action :authenticate_user!
+
       # GET /account
       def show
         render json: current_user.slice(:name, :email_address)
@@ -25,11 +27,6 @@ module Api
         end
         render json: history.as_json(only: [ :points, :type, :name, :description, :created_at ])
       end
-
-      private
-        def current_user
-          User.first
-        end
     end
   end
 end

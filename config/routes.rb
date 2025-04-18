@@ -14,12 +14,10 @@ Rails.application.routes.draw do
            path: "",
            path_names: {
              sign_in: "login",
-             sign_out: "logout",
-             registration: "signup"
+             sign_out: "logout"
            },
            controllers: {
-             sessions: "users/sessions",
-             registrations: "users/registrations"
+             sessions: "users/sessions"
            }
   resources :points_events
   resources :bonuses
