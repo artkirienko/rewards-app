@@ -101,7 +101,7 @@ RSpec.describe Reward, type: :model do
 
     it 'can have associated points_events' do
       reward = described_class.create!(valid_attributes)
-      user = User.create!(name: "Test User", email_address: "test@example.com", points: 0)
+      user = create(:user)
 
       points_event = PointsEvent.new(
         user_id: user.id,

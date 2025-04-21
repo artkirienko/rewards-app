@@ -93,7 +93,7 @@ RSpec.describe Bonus, type: :model do
 
   describe 'associations' do
     let(:bonus) { described_class.create!(valid_attributes) }
-    let(:user) { User.create!(name: "Test User", email_address: "test@example.com", points: 0) }
+    let(:user) { create(:user) }
 
     it 'has many points_events' do
       expect(described_class.reflect_on_association(:points_events).macro).to eq(:has_many)

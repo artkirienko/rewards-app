@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'validations' do
-    subject(:user) { described_class.new(name: 'Jane Smith', email_address: 'jane@example.com', points: 100) }
+    subject(:user) { described_class.new(name: 'Jane Smith', email_address: 'jane@example.com', points: 100, password: 'password', password_confirmation: 'password') }
 
     context 'with valid attributes' do
       it 'is valid' do
@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
 
     context 'when checking uniqueness validations' do
       it 'requires unique email_address' do
-        described_class.create!(name: 'Existing User', email_address: 'jane@example.com', points: 0)
+        described_class.create!(name: 'Existing User', email_address: 'jane@example.com', points: 0, password: 'password', password_confirmation: 'password')
         expect(user).not_to be_valid
         expect(user.errors[:email_address]).to include('has already been taken')
       end
@@ -127,7 +127,7 @@ RSpec.describe User, type: :model do
 
   describe 'dependent destroy' do
     it 'destroys associated points_events when user is destroyed' do
-      user = described_class.create!(name: 'Test User', email_address: 'test@example.com', points: 0)
+      user = described_class.create!(name: 'Test User', email_address: 'test@example.com', points: 0, password: 'password', password_confirmation: 'password')
       bonus = Bonus.create!(name: 'Test Bonus', description: 'Test', points: 100)
       user.points_events.create!(source: bonus, points: 100)
 
