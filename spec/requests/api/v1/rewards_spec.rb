@@ -53,7 +53,7 @@ RSpec.describe "Api::V1::Rewards", type: :request do
     let(:headers) { { 'ACCEPT' => 'application/json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Bearer #{jwt_token}") }
     let(:jwt_token) do
-      post "/login",
+      post '/api/v1/login',
            params: { user: { email: user.email_address, password: user.password } },
            headers: headers
       JSON.parse(response.body)['token']
