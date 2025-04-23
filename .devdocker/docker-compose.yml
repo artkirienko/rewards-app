@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devdocker/Dockerfile
+    volumes:
+      - ..:/rails
+      - bundle:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - DB_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=
+    depends_on:
+      - db
+    command: ["sh", "-c", "/rails/bin/setup --skip-server && bin/rails server -b 0.0.0.0"]
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  bundle:
+  mysql-data:

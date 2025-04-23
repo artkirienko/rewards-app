@@ -49,7 +49,7 @@ You can run this project using [Dev Containers](https://containers.dev/) to ensu
 
 - **[Docker](https://www.docker.com/get-started/)** installed locally on your machine
 - A [compatible editor](https://containers.dev/supporting#editors), such as [Visual Studio Code](https://code.visualstudio.com/) or [Cursor AI Editor](https://cursor.sh/), that supports Dev Containers
-- The **[Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)** installed in your editor. *Note:* This extension is typically pre-installed in VS Code and Cursor AI Editor
+- The **[Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)** installed in your editor. _Note:_ This extension is typically pre-installed in VS Code and Cursor AI Editor
 
 ### Steps
 
@@ -62,14 +62,56 @@ You can run this project using [Dev Containers](https://containers.dev/) to ensu
 3. When prompted, select "Reopen in Container" (or use the command palette: Dev Containers: Reopen in Container)
 4. The Dev Container will build and configure the environment based on the provided .devcontainer configuration
 5. Once the dev container setup is complete, open the terminal **within your editor** and run `bin/rails s`
-6. Open http://localhost:3000/ in your browser to view the application
-7. Run tests: open the terminal **within your editor** and run `bin/rspec`
+6. You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+7. Run tests: open the terminal **within your editor** and run `RAILS_ENV=test bin/rspec`
 
 ### Notes
 
 - Ensure Docker is running before launching the Dev Container
 - The `.devcontainer/devcontainer.json` file in this repository defines the container setup, including dependencies and tools
 - I recommend clicking "Connecting to Dev Container (show log)" in your editor to monitor the container setup process and troubleshoot any issues
+
+## Run with Docker and Docker-Compose
+
+### Prerequisites
+
+- **[Docker](https://www.docker.com/get-started/)** installed locally on your machine
+
+### Steps
+
+```bash
+docker-compose -f .devdocker/docker-compose.yml up --build
+```
+
+You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+
+### Run tests
+
+Open new terminal window or tab and run from within project directory
+
+```bash
+docker-compose -f .devdocker/docker-compose.yml exec -e RAILS_ENV=test app bin/rspec
+```
+
+## Run
+
+### Prerequisites
+
+MySQL 8, Ruby 3.4.2, Rails 8.0.2
+
+### Steps
+
+```
+bin/setup
+```
+
+You are ready for Interacting with Backend API via command-line interface (CLI) 🎉
+
+### Run tests
+
+```bash
+RAILS_ENV=test bin/rspec
+```
 
 ## Interact with Backend API via command-line interface (CLI)
 
@@ -79,26 +121,31 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X POST http://localhost:3000/api/v1/login \
     -H "Content-Type: application/json" \
     -d '{"user": {"email": "one@example.com", "password": "password"}}'
   ```
-  *Example Response:*
-  ```json
-  {
-    "user": {
-      "id": 1,
-      "name": "Bryan Rainlord",
-      "email_address": "one@example.com",
-      "points": 45,
-      "created_at": "2025-04-09T14:31:15.216Z",
-      "updated_at": "2025-04-09T14:53:59.797Z"
-    },
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNzQ0MjIyODE2LCJleHAiOjE3NDQzMDkyMTYsImp0aSI6IjRlOWQ5ZWIxLTk2MTAtNGRjMS05NTA1LWVjMzMyMWEzYmQxZiJ9.Xr_W558DnvP9zIbWVwTafgiL7DGvhx3ggUr4Xw_7O58"
-  }
-  ```
+
+````
+
+_Example Response:_
+
+```json
+{
+  "user": {
+    "id": 1,
+    "name": "Bryan Rainlord",
+    "email_address": "one@example.com",
+    "points": 45,
+    "created_at": "2025-04-09T14:31:15.216Z",
+    "updated_at": "2025-04-09T14:53:59.797Z"
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNzQ0MjIyODE2LCJleHAiOjE3NDQzMDkyMTYsImp0aSI6IjRlOWQ5ZWIxLTk2MTAtNGRjMS05NTA1LWVjMzMyMWEzYmQxZiJ9.Xr_W558DnvP9zIbWVwTafgiL7DGvhx3ggUr4Xw_7O58"
+}
+```
 
   </details>
 
@@ -108,13 +155,16 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X GET http://localhost:3000/api/v1/account \
     -H "Authorization: Bearer <YOUR_TOKEN_HERE>" \
     -H "Content-Type: application/json"
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   {
     "name": "Bryan Rainlord",
@@ -128,13 +178,16 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X GET http://localhost:3000/api/v1/account/balance \
     -H "Authorization: Bearer <YOUR_TOKEN_HERE>" \
     -H "Content-Type: application/json"
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   {
     "points": 395
@@ -147,11 +200,14 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X GET http://localhost:3000/api/v1/rewards
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   [
     {
@@ -227,11 +283,14 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X GET http://localhost:3000/api/v1/rewards/3
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   {
     "id": 3,
@@ -249,13 +308,16 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X POST http://localhost:3000/api/v1/rewards/3/redeem \
     -H "Authorization: Bearer <YOUR_TOKEN_HERE>" \
     -H "Content-Type: application/json"
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   {
     "message": "Reward redeemed successfully",
@@ -270,13 +332,16 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X POST http://localhost:3000/api/v1/rewards/8/redeem \
     -H "Authorization: Bearer <YOUR_TOKEN_HERE>" \
     -H "Content-Type: application/json"
   ```
-  *Example Response (when insufficient points):*
+
+  _Example Response (when insufficient points):_
+
   ```json
   {
     "error": "Not enough points"
@@ -289,13 +354,16 @@ As soon as you have Rewards App up and running
   <details>
   <summary>Click to expand/collapse</summary>
 
-  *Request:*
+  _Request:_
+
   ```bash
   curl -X GET http://localhost:3000/api/v1/account/history \
     -H "Authorization: Bearer <YOUR_TOKEN_HERE>" \
     -H "Content-Type: application/json"
   ```
-  *Example Response:*
+
+  _Example Response:_
+
   ```json
   [
     {
@@ -372,20 +440,17 @@ As soon as you have Rewards App up and running
   ```
 
   </details>
+````
 
-# README
+## TODO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-- Ruby version
-- System dependencies
-- Configuration
-- Database creation
-- Database initialization
-- How to run the test suite
-- Services (job queues, cache servers, search engines, etc.)
-- Deployment instructions
-- ...
+- code coverage, codecov
+- update Devise::JWT::RevocationStrategies::Null to better strategy
+- check for modern devise/devise jwt alternatives
+- authorization & admin dashboard
+- jbuilder, oj, fast-json
+- pagination with pagy, any modern gem or from scratch (offset + limit)
+- typescript react.js frontend via esbuild vs webpacker
+- when user clicks redeem button, play animation
+- codeclimate
+- save curl instructions as Postman suite or create end-to-end test
