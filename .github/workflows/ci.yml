@@ -37,3 +37,5 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop --parallel -f github
 
+      - name: Security audit application code
+        run: bin/brakeman -q -w2
