@@ -29,6 +29,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,3 +42,35 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop --parallel -f github
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_HOST: "%"
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: mysql2://root:@localhost:3306/rewards_app_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+
+      - name: Run tests
+        run: bin/rspec
