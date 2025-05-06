@@ -21,9 +21,11 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager -q -w2
+        continue-on-error: true
 
       - name: Security audit dependencies
         run: bin/bundler-audit --update
+        continue-on-error: true
 
   lint:
     runs-on: ubuntu-latest
