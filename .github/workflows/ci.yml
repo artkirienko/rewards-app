@@ -8,7 +8,6 @@ on:
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +28,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,7 +43,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8.0
@@ -54,11 +51,14 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_HOST: "%"
-
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=5
     env:
       RAILS_ENV: test
-      DATABASE_URL: mysql2://root:@localhost:3306/rewards_app_test
-
+      DATABASE_URL: mysql2://root:@127.0.0.1:3306/rewards_app_test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -68,6 +68,17 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin -h 127.0.0.1 -P 3306 -u root ping --silent; do
+            echo "Waiting for MySQL to be ready..."
+            sleep 2
+          done
+          echo "MySQL is ready!"
+
+      - name: Create test database
+        run: bin/rails db:create
 
       - name: Set up database schema
         run: bin/rails db:schema:load
