@@ -2,6 +2,7 @@
 [![GitHub Actions CI](https://github.com/artkirienko/rewards-app/actions/workflows/ci.yml/badge.svg)](https://github.com/artkirienko/rewards-app/actions/workflows/ci.yml)
 [![SLOC](https://sloc.xyz/github/artkirienko/rewards-app)](https://en.wikipedia.org/wiki/Source_lines_of_code)
 [![Hits-of-Code](https://hitsofcode.com/github/artkirienko/rewards-app?branch=main)](https://hitsofcode.com)
+[![HitCount](https://hitscounter.dev/api/hit?url=https%3A%2F%2Fgithub.com%2Fartkirienko%2Frewards-app&label=Visitors&icon=heart-fill&color=%23d1e7dd)](https://hitscounter.dev)
 
 # Take home challenge Rewards App
 
