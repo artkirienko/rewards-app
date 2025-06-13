@@ -38,7 +38,7 @@ group :development, :test do
 
   gem "bundler-audit", "~> 0.9.2", require: false
 
-  gem "factory_bot_rails", "~> 6.4"
+  gem "factory_bot_rails", "~> 6.5"
   gem "rspec-rails", "~> 7.1", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
