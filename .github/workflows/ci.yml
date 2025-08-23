@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -61,7 +61,7 @@ jobs:
       DATABASE_URL: mysql2://root:@127.0.0.1:3306/rewards_app_test
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
